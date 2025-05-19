@@ -22,6 +22,7 @@ public class Game {
   public void play() {
     Colour chosenColour = null;
     Colour guessColour = null;
+    Colour powerColour = null;
     String[] input;
     Boolean validInputs = false;
 
@@ -52,6 +53,11 @@ public class Game {
     }
     MessageCli.PRINT_INFO_MOVE.printMessage(
         playerName, chosenColour.toString(), guessColour.toString());
+
+    if (currentRound%3 ==0){
+      powerColour = Colour.getRandomColourForPowerColour();
+      MessageCli.PRINT_POWER_COLOUR.printMessage(powerColour.toString());
+    }
   }
 
   public void showStats() {}
