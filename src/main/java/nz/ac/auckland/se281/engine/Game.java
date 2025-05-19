@@ -3,6 +3,7 @@ package nz.ac.auckland.se281.engine;
 import nz.ac.auckland.se281.Main.Difficulty;
 import nz.ac.auckland.se281.cli.MessageCli;
 import nz.ac.auckland.se281.model.Colour;
+import nz.ac.auckland.se281.engine.Valid;
 
 public class Game {
   public static String AI_NAME = "HAL-9000";
@@ -22,17 +23,42 @@ public class Game {
   }
 
   public void play() {
-    Colour currentColour;
+    Colour chosenColour;
+    Colour guessColour;
+    String[] input;
+    Boolean validInputs = false;
+    
     
     currentRound +=1; //increments the round counter
     MessageCli.START_ROUND.printMessage(currentRound,maxRounds);
 
-    MessageCli.ASK_HUMAN_INPUT.printMessage();
-    currentColour = Colour.fromInput(Interact.readStringInput());
+    
+    while (validInputs == false){
+      MessageCli.ASK_HUMAN_INPUT.printMessage();
+      //splits the input and then attempts to turn them into colour enum
+      input = (Interact.readStringInput().split(" ")); 
 
-    if (currentColour == null){
-      MessageCli.INVALID_HUMAN_INPUT.printMessage();
+      //checks if there are enough inputs
+      if (input.length!=2){
+        MessageCli.INVALID_HUMAN_INPUT.printMessage();
+        continue;
+      }
+
+      //attempts to turn inputs into colour enum
+      chosenColour = Colour.fromInput(input[0]);
+      guessColour = Colour.fromInput(input[1]);
+
+      //checks if both inputs are valid and outputs error message if not
+      if (Valid.checkColour(chosenColour)&& Valid.checkColour(guessColour)){
+        break;
+      }else{
+        MessageCli.INVALID_HUMAN_INPUT.printMessage();
+      }
+
     }
+    
+      
+    
 
 
     
