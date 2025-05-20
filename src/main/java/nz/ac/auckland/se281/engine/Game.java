@@ -5,23 +5,22 @@ import nz.ac.auckland.se281.ai.*;
 import nz.ac.auckland.se281.cli.MessageCli;
 import nz.ac.auckland.se281.model.Colour;
 
-
 public class Game {
   public static String AI_NAME = "HAL-9000";
   public int maxRounds = 0;
   public int currentRound = 0;
-  public String playerName = null;
   public Ai currentAi = null;
-  public int playerPoints = 0;
-  public int aiPoints = 0;
+  public Player currentPlayer = null;
 
   public Game() {}
 
   public void newGame(Difficulty difficulty, int numRounds, String[] options) {
     maxRounds = numRounds; // set the max number of rounds
 
-    playerName = options[0];
-    MessageCli.WELCOME_PLAYER.printMessage(playerName);
+    // makes a new player instance
+    Player newPlayer = new Player(options[0]);
+    currentPlayer = newPlayer;
+    MessageCli.WELCOME_PLAYER.printMessage(currentPlayer.getPlayerName());
 
     currentAi = AiFactory.createAi(difficulty);
   }
@@ -33,13 +32,12 @@ public class Game {
     String[] input;
     Boolean validInputs = false;
     Boolean powerRound = false;
-    
 
-    currentRound += 1; 
-    //checks if power colour is active
-    if (currentRound %3 ==0){
+    currentRound += 1;
+    // checks if power colour is active
+    if (currentRound % 3 == 0) {
       powerRound = true;
-    }else{
+    } else {
       powerRound = false;
     }
 
@@ -62,62 +60,29 @@ public class Game {
 
       // checks if both inputs are valid and outputs error message if not
       if (Valid.checkColour(chosenColour) && Valid.checkColour(guessColour)) {
+        currentPlayer.setColour(chosenColour, guessColour);
         break;
+
       } else {
         MessageCli.INVALID_HUMAN_INPUT.printMessage();
       }
     }
 
-    //picks a power colour
+    // picks a power colour
     if (powerRound) {
       powerColour = Colour.getRandomColourForPowerColour();
       MessageCli.PRINT_POWER_COLOUR.printMessage(powerColour.toString());
     }
 
     MessageCli.PRINT_INFO_MOVE.printMessage(
-        playerName, chosenColour.toString(), guessColour.toString());
+        currentPlayer.getPlayerName(), chosenColour.toString(), guessColour.toString());
 
-        
-    //ai picks colours and outputs them
+    // ai picks colours and outputs them
     currentAi.makeGuess();
     currentAi.printGuess();
 
-    //allocates points
-    
-    if (currentAi.getAIColour() ==guessColour){
-      //checks if its a powerRound
-      if (guessColour == powerColour && powerRound){
-        playerPoints +=3;
-        MessageCli.PRINT_OUTCOME_ROUND.printMessage(playerName,"3");
-        
-      }else{
-        playerPoints +=1;
-        MessageCli.PRINT_OUTCOME_ROUND.printMessage(playerName,"1");
-
-      }
-    }else{
-      MessageCli.PRINT_OUTCOME_ROUND.printMessage(playerName,"0");
-    }
-    
-    if(currentAi.getAiGuess() == chosenColour){
-      if (chosenColour == powerColour && powerRound){
-        aiPoints +=3;
-        MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000","3");
-
-      }else{
-        aiPoints +=1;
-        MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000","1");
-
-      }
-      
-    }else{
-      MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000","0");
-    }
-
-    
-
-
-
+    // allocates points
+    currentAi.checkOutcome(currentPlayer, powerColour, powerRound);
   }
 
   public void showStats() {}
