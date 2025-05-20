@@ -1,14 +1,17 @@
 package nz.ac.auckland.se281.engine;
 
 import nz.ac.auckland.se281.Main.Difficulty;
+import nz.ac.auckland.se281.ai.*;
 import nz.ac.auckland.se281.cli.MessageCli;
 import nz.ac.auckland.se281.model.Colour;
+
 
 public class Game {
   public static String AI_NAME = "HAL-9000";
   public int maxRounds = 0;
   public int currentRound = 0;
   public String playerName = null;
+  public Ai currentAi = null;
 
   public Game() {}
 
@@ -17,6 +20,8 @@ public class Game {
 
     playerName = options[0];
     MessageCli.WELCOME_PLAYER.printMessage(playerName);
+
+    currentAi = AiFactory.createAi(difficulty);
   }
 
   public void play() {
@@ -51,14 +56,22 @@ public class Game {
         MessageCli.INVALID_HUMAN_INPUT.printMessage();
       }
     }
-    MessageCli.PRINT_INFO_MOVE.printMessage(
-        playerName, chosenColour.toString(), guessColour.toString());
 
-        //picks a power colour
+    //picks a power colour
     if (currentRound % 3 == 0) {
       powerColour = Colour.getRandomColourForPowerColour();
       MessageCli.PRINT_POWER_COLOUR.printMessage(powerColour.toString());
     }
+
+    MessageCli.PRINT_INFO_MOVE.printMessage(
+        playerName, chosenColour.toString(), guessColour.toString());
+
+        
+
+    currentAi.makeGuess();
+    currentAi.printGuess();
+
+
   }
 
   public void showStats() {}

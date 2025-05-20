@@ -3,16 +3,15 @@ package nz.ac.auckland.se281.ai;
 import nz.ac.auckland.se281.model.Colour;
 
 public class EasyStrategy implements DifficultyStrategy {
-    Colour[] chosenColours;
 
+  
+  public static Colour getGuessColour() {
 
-    
-    @Override
-    public Colour[] pickColour() {
+    return Colour.getRandomColourForAi();
+  }
 
-        chosenColours[0] = Colour.getRandomColourForAi();
-        chosenColours[1] = Colour.getRandomColourForAi();
-        return chosenColours;
-        
-    }
+  
+  public static Colour getChosenColour() {
+    return Colour.getRandomColourForAi();
+  }
 }

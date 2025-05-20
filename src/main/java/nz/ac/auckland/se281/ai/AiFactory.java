@@ -1,10 +1,17 @@
 package nz.ac.auckland.se281.ai;
 
+import nz.ac.auckland.se281.Main.Difficulty;
+
 public class AiFactory {
-  public static Ai createAi(String difficulty) {
+    
+  public static Ai createAi(Difficulty difficulty) {
     switch (difficulty) {
-      case "easy":
+      case EASY:
         return new EasyAi();
+      case HARD:
+        return new HardAi();
+      case MEDIUM:
+        return new MediumAi();
     }
     return null;
   }
