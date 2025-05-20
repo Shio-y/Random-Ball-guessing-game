@@ -31,6 +31,10 @@ public class Player {
     this.playerColourHistory.add(chosenColour);
     
   }
+  public void clearPlayerColourHistory(){
+    this.playerColourHistory.clear();
+
+  }
 
   public List<Colour> getPlayerColourHistory(){
     return this.playerColourHistory;

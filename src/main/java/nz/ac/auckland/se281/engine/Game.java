@@ -11,18 +11,30 @@ public class Game {
   public int currentRound = 0;
   public Ai currentAi = null;
   public Player currentPlayer = null;
+  public HardAi dummyHardAi = null;
+  boolean gameBegin = false;
 
   public Game() {}
 
   public void newGame(Difficulty difficulty, int numRounds, String[] options) {
+    gameBegin = true;
     maxRounds = numRounds; // set the max number of rounds
-
+    
     // makes a new player instance
     Player newPlayer = new Player(options[0]);
     currentPlayer = newPlayer;
+    
     MessageCli.WELCOME_PLAYER.printMessage(currentPlayer.getPlayerName());
 
     currentAi = AiFactory.createAi(difficulty);
+
+    //clear history after starting new game
+    currentPlayer.clearPlayerColourHistory();
+    if (difficulty ==difficulty.HARD){
+      dummyHardAi = (HardAi)(currentAi);
+      dummyHardAi.clearHardAi();
+    }
+    
   }
 
   public void play() {
@@ -32,6 +44,11 @@ public class Game {
     String[] input;
     Boolean validInputs = false;
     Boolean powerRound = false;
+
+    if (!gameBegin){
+      MessageCli.GAME_NOT_STARTED.printMessage();
+      return;
+    }
 
     currentRound += 1;
     // checks if power colour is active

@@ -5,7 +5,7 @@ import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
 public class HardAi implements Ai {
-  int roundCounter;
+  int roundCounter = 0;
   Colour[] holdColours; // 0 is chosen, 1 is guess;
   SelectAi selectAi = new SelectAi();
   Strategy randomStrategy = new RandomStrategy();
@@ -16,8 +16,8 @@ public class HardAi implements Ai {
 
   @Override
   public void makeGuess(Player currentPlayer) {
-    //checks which round it is and picks strategy accordingly
-    roundCounter+=1;
+    // checks which round it is and picks strategy accordingly
+    this.roundCounter += 1;
     switch (roundCounter) {
       case (1):
         selectAi.setStrategy(randomStrategy);
@@ -30,25 +30,23 @@ public class HardAi implements Ai {
         previouStrategy = leastUsedStrategy;
         break;
       default:
-        if (lostPrevious){
-          //dynamically switches which strategy to use round 4 onwards
-          if(previouStrategy == leastUsedStrategy){
+        if (lostPrevious) {
+          // dynamically switches which strategy to use round 4 onwards
+          if (previouStrategy == leastUsedStrategy) {
             previouStrategy = avoidLastStrategy;
-          }else{
+          } else {
             previouStrategy = leastUsedStrategy;
           }
-          
         }
         selectAi.setStrategy(previouStrategy);
-    
-
-
-      
-        
     }
-  
-    
+
     holdColours = selectAi.execute(currentPlayer);
+  }
+
+  //used to reset after new game
+  public void clearHardAi(){
+    this.roundCounter = 0;
   }
 
   @Override
@@ -77,12 +75,10 @@ public class HardAi implements Ai {
       } else {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "1");
       }
-      
 
     } else {
 
       MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "0");
-      
     }
     // checks if ai guessed correctly
     if (currentPlayer.getPlayerColour() == holdColours[1]) {
@@ -93,11 +89,11 @@ public class HardAi implements Ai {
       } else {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "1");
       }
-      lostPrevious = false; //remembers for next round
+      lostPrevious = false; // remembers for next round
 
     } else {
       MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "0");
-      lostPrevious = true; //remembers for next round
+      lostPrevious = true; // remembers for next round
     }
   }
 }
