@@ -33,6 +33,7 @@ public class Game {
     String[] input;
     Boolean validInputs = false;
     Boolean powerRound = false;
+    
 
     currentRound += 1; 
     //checks if power colour is active
@@ -82,17 +83,33 @@ public class Game {
     currentAi.printGuess();
 
     //allocates points
-    if (currentAi.getAIColour() ==guessColour){
-      playerPoints +=1;
-      MessageCli.PRINT_OUTCOME_ROUND.printMessage(playerName,"1");
     
+    if (currentAi.getAIColour() ==guessColour){
+      //checks if its a powerRound
+      if (guessColour == powerColour && powerRound){
+        playerPoints +=3;
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage(playerName,"3");
+        
+      }else{
+        playerPoints +=1;
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage(playerName,"1");
+
+      }
     }else{
       MessageCli.PRINT_OUTCOME_ROUND.printMessage(playerName,"0");
     }
     
     if(currentAi.getAiGuess() == chosenColour){
-      aiPoints +=1;
-      MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000","1");
+      if (chosenColour == powerColour && powerRound){
+        aiPoints +=3;
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000","3");
+
+      }else{
+        aiPoints +=1;
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000","1");
+
+      }
+      
     }else{
       MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000","0");
     }
