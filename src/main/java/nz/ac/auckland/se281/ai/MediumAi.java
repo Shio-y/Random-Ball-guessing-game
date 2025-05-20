@@ -5,47 +5,54 @@ import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
 public class MediumAi implements Ai {
-    Colour chosenColour = null;
-    Colour guessColour = null;
-    boolean firstRound = true;
-    Colour previousPlayerGuess = null;
+  Colour chosenColour = null;
+  Colour guessColour = null;
+  boolean firstRound = true;
+  Colour previousPlayerGuess = null;
+  Colour[] holdColours; // 0 is chosen, 1 is guess;
+  SelectAi selectAi = new SelectAi();
+  Strategy randomStrategy = new RandomStrategy();
+  Strategy avoidLastStrategy = new AvoidLastStrategy();
 
-    public MediumAi(){
-        this.chosenColour = null;
-        this.guessColour = null;
-    }
-  @Override
-  public void makeGuess() {
-    //checks if its the first round and uses random strategy if so
-    if (firstRound){
-
-        // this.chosenColour = RandomStrategy.getChosenColour();
-        // this.guessColour = RandomStrategy.getGuessColour();
-    }else{
-
-    }
-    
+  public MediumAi() {
+    this.chosenColour = null;
+    this.guessColour = null;
   }
 
+  @Override
+  public void makeGuess(Player currentPlayer) {
+    // checks if its the first round and uses random strategy if so
+    if (firstRound) {
 
+      selectAi.setStrategy(randomStrategy);
+      firstRound = false;
+
+    } else {
+      // changes strategy after first round
+      selectAi.setStrategy(avoidLastStrategy);
+    }
+
+    holdColours = selectAi.execute(currentPlayer);
+  }
 
   @Override
   public void checkOutcome(Player currentPlayer, Colour powerColour, Boolean powerRound) {
-    //saves the previous player guess
+    // saves the previous player guess
     previousPlayerGuess = currentPlayer.getPlayerGuess();
   }
+
   @Override
   public Colour getAiGuess() {
-    return this.guessColour;
+    return holdColours[1];
   }
 
   @Override
   public Colour getAIColour() {
-   return this.chosenColour;
+    return holdColours[0];
   }
 
   @Override
   public void printGuess() {
-    MessageCli.PRINT_INFO_MOVE.printMessage("HAL-9000", this.chosenColour, this.guessColour);
+    MessageCli.PRINT_INFO_MOVE.printMessage("HAL-9000", holdColours[0], holdColours[1]);
   }
 }

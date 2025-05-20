@@ -4,7 +4,7 @@ import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
 public interface Ai {
-  public void makeGuess();
+  public void makeGuess(Player currentPlayer);
 
   public Colour getAiGuess();
 

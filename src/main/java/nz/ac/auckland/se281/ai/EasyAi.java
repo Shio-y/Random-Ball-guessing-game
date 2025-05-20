@@ -9,6 +9,7 @@ public class EasyAi implements Ai {
   int points = 0;
   Colour chosenColour = null;
   Colour guessColour = null;
+  Colour[] holdColours; //0 is chosen 1 is guess
   
   RandomStrategy randomStrategy = new RandomStrategy();
   SelectAi selectAi = new SelectAi();
@@ -19,23 +20,23 @@ public class EasyAi implements Ai {
   }
 
   @Override
-  public void makeGuess() {
+  public void makeGuess(Player currentPlayer) {
     selectAi.setStrategy(randomStrategy);
 
     //picks random colours for guessing.
-    Colour[] holdColours = selectAi.execute();
+    holdColours = selectAi.execute(currentPlayer);
     this.chosenColour = holdColours[0];
     this.guessColour = holdColours[1];
   }
 
   @Override
   public Colour getAiGuess() {
-    return guessColour;
+    return holdColours[1];
   }
 
   @Override
   public Colour getAIColour() {
-    return chosenColour;
+    return holdColours[0];
   }
 
   @Override

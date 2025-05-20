@@ -43,6 +43,8 @@ public class Game {
 
     MessageCli.START_ROUND.printMessage(currentRound, maxRounds);
 
+    
+
     while (validInputs == false) {
       MessageCli.ASK_HUMAN_INPUT.printMessage();
 
@@ -77,8 +79,10 @@ public class Game {
     MessageCli.PRINT_INFO_MOVE.printMessage(
         currentPlayer.getPlayerName(), chosenColour.toString(), guessColour.toString());
 
-    // ai picks colours and outputs them
-    currentAi.makeGuess();
+    // ai picks and outputs colour
+    
+    currentAi.makeGuess(currentPlayer);
+    
     currentAi.printGuess();
 
     // allocates points

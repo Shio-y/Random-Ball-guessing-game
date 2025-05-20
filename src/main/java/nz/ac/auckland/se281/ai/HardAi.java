@@ -6,12 +6,6 @@ import nz.ac.auckland.se281.model.Colour;
 public class HardAi implements Ai {
 
   @Override
-  public void makeGuess() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'makeGuess'");
-  }
-
-  @Override
   public Colour getAiGuess() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getAiGuess'");
@@ -33,5 +27,11 @@ public class HardAi implements Ai {
   public void checkOutcome(Player currentPlayer, Colour powerColour, Boolean powerRound) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'checkOutcome'");
+  }
+
+  @Override
+  public void makeGuess(Player currentPlayer) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'makeGuess'");
   }
 }
