@@ -53,7 +53,12 @@ public class Player {
     return this.playerColourHistory;
 
   }
-
+  public int getPlayerPoints(){
+    return this.playerPoints;
+  }
+  public int getAiPoints(){
+    return this.aiPoints;
+  }
   public Colour getPlayerGuess() {
     return this.guessColour;
   }

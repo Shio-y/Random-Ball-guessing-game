@@ -19,22 +19,21 @@ public class Game {
   public void newGame(Difficulty difficulty, int numRounds, String[] options) {
     gameBegin = true;
     maxRounds = numRounds; // set the max number of rounds
-    
+
     // makes a new player instance
     Player newPlayer = new Player(options[0]);
     currentPlayer = newPlayer;
-    
+
     MessageCli.WELCOME_PLAYER.printMessage(currentPlayer.getPlayerName());
 
     currentAi = AiFactory.createAi(difficulty);
 
-    //clear history after starting new game
+    // clear history after starting new game
     currentPlayer.clearPlayerColourHistory();
-    if (difficulty ==difficulty.HARD){
-      dummyHardAi = (HardAi)(currentAi);
+    if (difficulty == difficulty.HARD) {
+      dummyHardAi = (HardAi) (currentAi);
       dummyHardAi.clearHardAi();
     }
-    
   }
 
   public void play() {
@@ -45,7 +44,7 @@ public class Game {
     Boolean validInputs = false;
     Boolean powerRound = false;
 
-    if (!gameBegin){
+    if (!gameBegin) {
       MessageCli.GAME_NOT_STARTED.printMessage();
       return;
     }
@@ -60,7 +59,7 @@ public class Game {
 
     MessageCli.START_ROUND.printMessage(currentRound, maxRounds);
 
-    //ai makes guess and picks colour
+    // ai makes guess and picks colour
     currentAi.makeGuess(currentPlayer);
 
     while (validInputs == false) {
@@ -98,7 +97,6 @@ public class Game {
         currentPlayer.getPlayerName(), chosenColour.toString(), guessColour.toString());
 
     // ai outputs colour
-    
 
     currentAi.printGuess();
 
@@ -106,5 +104,11 @@ public class Game {
     currentAi.checkOutcome(currentPlayer, powerColour, powerRound);
   }
 
-  public void showStats() {}
+  public void showStats() {
+
+    MessageCli.PRINT_PLAYER_POINTS.printMessage(
+        currentPlayer.getPlayerName(), String.valueOf(currentPlayer.getPlayerPoints()));
+        MessageCli.PRINT_PLAYER_POINTS.printMessage(
+          "HAL-9000", String.valueOf(currentPlayer.getAiPoints()));
+  }
 }
