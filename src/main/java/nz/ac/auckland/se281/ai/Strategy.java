@@ -2,7 +2,7 @@ package nz.ac.auckland.se281.ai;
 
 
 
-public interface DifficultyStrategy {
+public interface Strategy {
 
     
         

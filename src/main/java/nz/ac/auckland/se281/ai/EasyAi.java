@@ -16,9 +16,9 @@ public class EasyAi implements Ai {
 
   @Override
   public void makeGuess() {
-
-    this.chosenColour = EasyStrategy.getChosenColour();
-    this.guessColour = EasyStrategy.getGuessColour();
+    //picks random colours for guessing.
+    this.chosenColour = RandomStrategy.getChosenColour();
+    this.guessColour = RandomStrategy.getGuessColour();
   }
 
   @Override
@@ -38,7 +38,9 @@ public class EasyAi implements Ai {
 
   @Override
   public void checkOutcome(Player currentPlayer, Colour powerColour, Boolean powerRound) {
+    //checks if player guessed correctly
     if (currentPlayer.getPlayerGuess() == this.chosenColour) {
+        //checks if player can get 3 points
       if (powerRound && this.chosenColour == powerColour) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "3");
 
@@ -47,10 +49,12 @@ public class EasyAi implements Ai {
       }
 
     } else {
+
       MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "0");
     }
-
+    //checks if ai guessed correctly
     if (currentPlayer.getPlayerColour() == this.guessColour) {
+        //checks for 3 points
       if (powerRound && this.guessColour == powerColour) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "3");
 
