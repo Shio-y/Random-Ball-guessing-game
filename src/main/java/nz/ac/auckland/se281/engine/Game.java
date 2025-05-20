@@ -30,6 +30,7 @@ public class Game {
 
     // clear history after starting new game
     currentPlayer.clearPlayerColourHistory();
+    currentRound = 0;
     if (difficulty == difficulty.HARD) {
       dummyHardAi = (HardAi) (currentAi);
       dummyHardAi.clearHardAi();
@@ -44,6 +45,7 @@ public class Game {
     Boolean validInputs = false;
     Boolean powerRound = false;
 
+    // check if game began
     if (!gameBegin) {
       MessageCli.GAME_NOT_STARTED.printMessage();
       return;
@@ -62,6 +64,7 @@ public class Game {
     // ai makes guess and picks colour
     currentAi.makeGuess(currentPlayer);
 
+    // human inputs
     while (validInputs == false) {
       MessageCli.ASK_HUMAN_INPUT.printMessage();
 
@@ -92,30 +95,43 @@ public class Game {
       powerColour = Colour.getRandomColourForPowerColour();
       MessageCli.PRINT_POWER_COLOUR.printMessage(powerColour.toString());
     }
-
+    // outputs move info
     MessageCli.PRINT_INFO_MOVE.printMessage(
         currentPlayer.getPlayerName(), chosenColour.toString(), guessColour.toString());
 
-    // ai outputs colour
+    // ai outputs colour and allocates points
 
     currentAi.printGuess();
-
-    // allocates points
     currentAi.checkOutcome(currentPlayer, powerColour, powerRound);
+
+    // checks if its the last round and outputs accordingly
+    if (currentRound == maxRounds) {
+
+      showStats();
+      gameBegin = false;
+      MessageCli.PRINT_END_GAME.printMessage();
+      // checks for a winner if any.
+      if (currentPlayer.getAiPoints() == currentPlayer.getPlayerPoints()) {
+        MessageCli.PRINT_TIE_GAME.printMessage();
+      } else if (currentPlayer.getAiPoints() > currentPlayer.getPlayerPoints()) {
+        MessageCli.PRINT_WINNER_GAME.printMessage("HAL-9000");
+      } else if (currentPlayer.getAiPoints() < currentPlayer.getPlayerPoints()) {
+        MessageCli.PRINT_WINNER_GAME.printMessage(currentPlayer.getPlayerName());
+      }
+    }
   }
 
   public void showStats() {
 
-    if(!gameBegin){
+    // check if game has started yet
+    if (!gameBegin) {
       MessageCli.GAME_NOT_STARTED.printMessage();
       return;
     }
-    //outputs message containing total points
+    // outputs message containing total points
     MessageCli.PRINT_PLAYER_POINTS.printMessage(
         currentPlayer.getPlayerName(), String.valueOf(currentPlayer.getPlayerPoints()));
     MessageCli.PRINT_PLAYER_POINTS.printMessage(
         "HAL-9000", String.valueOf(currentPlayer.getAiPoints()));
-
-    
   }
 }

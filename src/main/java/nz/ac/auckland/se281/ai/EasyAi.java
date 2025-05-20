@@ -9,8 +9,8 @@ public class EasyAi implements Ai {
   int points = 0;
   Colour chosenColour = null;
   Colour guessColour = null;
-  Colour[] holdColours; //0 is chosen 1 is guess
-  
+  Colour[] holdColours; // index 0 is chosen colour, 1 is guessed colour
+
   RandomStrategy randomStrategy = new RandomStrategy();
   SelectAi selectAi = new SelectAi();
 
@@ -23,7 +23,7 @@ public class EasyAi implements Ai {
   public void makeGuess(Player currentPlayer) {
     selectAi.setStrategy(randomStrategy);
 
-    //picks random colours for guessing.
+    // picks random colours for guessing.
     holdColours = selectAi.execute(currentPlayer);
     this.chosenColour = holdColours[0];
     this.guessColour = holdColours[1];
@@ -46,9 +46,9 @@ public class EasyAi implements Ai {
 
   @Override
   public void checkOutcome(Player currentPlayer, Colour powerColour, Boolean powerRound) {
-    //checks if player guessed correctly
+    // checks if player guessed correctly
     if (currentPlayer.getPlayerGuess() == this.chosenColour) {
-        //checks if player can get 3 points
+      // checks if player can get 3 points
       if (powerRound && this.chosenColour == powerColour) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "3");
         currentPlayer.incrementPlayerPoints(3);
@@ -62,9 +62,9 @@ public class EasyAi implements Ai {
 
       MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "0");
     }
-    //checks if ai guessed correctly
+    // checks if ai guessed correctly
     if (currentPlayer.getPlayerColour() == this.guessColour) {
-        //checks for 3 points
+      // checks for 3 points
       if (powerRound && this.guessColour == powerColour) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "3");
         currentPlayer.incrementAiPoints(3);
@@ -72,7 +72,6 @@ public class EasyAi implements Ai {
       } else {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "1");
         currentPlayer.incrementAiPoints(1);
-
       }
 
     } else {

@@ -44,6 +44,7 @@ public class LeastUsedStrategy implements Strategy {
         lowestIndex = i;
       }
     }
+    // returns values
     colour[0] = Colour.getRandomColourForAi();
     colour[1] = dummyColour[lowestIndex];
     return colour;

@@ -14,8 +14,4 @@ public class RandomStrategy implements Strategy {
     colour[1] = Colour.getRandomColourForAi();
     return colour;
   }
-
-  // public static Colour getChosenColour() {
-  //   return Colour.getRandomColourForAi();
-  // }
 }

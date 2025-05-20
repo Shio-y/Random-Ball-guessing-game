@@ -4,14 +4,10 @@ import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
 public class AvoidLastStrategy implements Strategy {
-
+  // need default values or else doesnt work
   Colour[] colour = {Colour.RED, Colour.RED};
 
-  public static Colour getGuessColour(Colour previousPlayerGuess) {
-
-    return Colour.getRandomColourExcluding(previousPlayerGuess);
-  }
-
+  // returns randomly a colour that was not picked in the previous turn by human.
   @Override
   public Colour[] getColours(Player currentPlayer) {
     colour[0] = Colour.getRandomColourForAi();
