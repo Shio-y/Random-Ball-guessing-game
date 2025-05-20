@@ -12,6 +12,8 @@ public class Game {
   public int currentRound = 0;
   public String playerName = null;
   public Ai currentAi = null;
+  public int playerPoints = 0;
+  public int aiPoints = 0;
 
   public Game() {}
 
@@ -30,8 +32,16 @@ public class Game {
     Colour powerColour = null;
     String[] input;
     Boolean validInputs = false;
+    Boolean powerRound = false;
 
-    currentRound += 1; // increments the round counter
+    currentRound += 1; 
+    //checks if power colour is active
+    if (currentRound %3 ==0){
+      powerRound = true;
+    }else{
+      powerRound = false;
+    }
+
     MessageCli.START_ROUND.printMessage(currentRound, maxRounds);
 
     while (validInputs == false) {
@@ -58,7 +68,7 @@ public class Game {
     }
 
     //picks a power colour
-    if (currentRound % 3 == 0) {
+    if (powerRound) {
       powerColour = Colour.getRandomColourForPowerColour();
       MessageCli.PRINT_POWER_COLOUR.printMessage(powerColour.toString());
     }
@@ -67,9 +77,28 @@ public class Game {
         playerName, chosenColour.toString(), guessColour.toString());
 
         
-
+    //ai picks colours and outputs them
     currentAi.makeGuess();
     currentAi.printGuess();
+
+    //allocates points
+    if (currentAi.getAIColour() ==guessColour){
+      playerPoints +=1;
+      MessageCli.PRINT_OUTCOME_ROUND.printMessage(playerName,"1");
+    
+    }else{
+      MessageCli.PRINT_OUTCOME_ROUND.printMessage(playerName,"0");
+    }
+    
+    if(currentAi.getAiGuess() == chosenColour){
+      aiPoints +=1;
+      MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000","1");
+    }else{
+      MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000","0");
+    }
+
+    
+
 
 
   }
