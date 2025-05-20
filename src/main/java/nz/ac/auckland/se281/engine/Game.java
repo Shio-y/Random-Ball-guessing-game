@@ -106,9 +106,16 @@ public class Game {
 
   public void showStats() {
 
+    if(!gameBegin){
+      MessageCli.GAME_NOT_STARTED.printMessage();
+      return;
+    }
+    //outputs message containing total points
     MessageCli.PRINT_PLAYER_POINTS.printMessage(
         currentPlayer.getPlayerName(), String.valueOf(currentPlayer.getPlayerPoints()));
-        MessageCli.PRINT_PLAYER_POINTS.printMessage(
-          "HAL-9000", String.valueOf(currentPlayer.getAiPoints()));
+    MessageCli.PRINT_PLAYER_POINTS.printMessage(
+        "HAL-9000", String.valueOf(currentPlayer.getAiPoints()));
+
+    
   }
 }
