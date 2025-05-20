@@ -19,8 +19,8 @@ public class MediumAi implements Ai {
     //checks if its the first round and uses random strategy if so
     if (firstRound){
 
-        this.chosenColour = RandomStrategy.getChosenColour();
-        this.guessColour = RandomStrategy.getGuessColour();
+        // this.chosenColour = RandomStrategy.getChosenColour();
+        // this.guessColour = RandomStrategy.getGuessColour();
     }else{
 
     }

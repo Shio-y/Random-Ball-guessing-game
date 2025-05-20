@@ -5,9 +5,13 @@ import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
 public class EasyAi implements Ai {
+
   int points = 0;
   Colour chosenColour = null;
   Colour guessColour = null;
+  
+  RandomStrategy randomStrategy = new RandomStrategy();
+  SelectAi selectAi = new SelectAi();
 
   public EasyAi() {
     this.chosenColour = null;
@@ -16,9 +20,12 @@ public class EasyAi implements Ai {
 
   @Override
   public void makeGuess() {
+    selectAi.setStrategy(randomStrategy);
+
     //picks random colours for guessing.
-    this.chosenColour = RandomStrategy.getChosenColour();
-    this.guessColour = RandomStrategy.getGuessColour();
+    Colour[] holdColours = selectAi.execute();
+    this.chosenColour = holdColours[0];
+    this.guessColour = holdColours[1];
   }
 
   @Override

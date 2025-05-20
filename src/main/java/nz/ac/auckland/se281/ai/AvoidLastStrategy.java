@@ -9,4 +9,10 @@ public class AvoidLastStrategy implements Strategy {
 
         return Colour.getRandomColourExcluding(previousPlayerGuess);
     }
+
+    @Override
+    public Colour[] getColours() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getColours'");
+    }
 }
