@@ -38,9 +38,12 @@ public class MediumAi implements Ai {
       // checks if player can get 3 points
       if (powerRound && holdColours[0] == powerColour) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "3");
+        currentPlayer.incrementPlayerPoints(3);
+
 
       } else {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "1");
+        currentPlayer.incrementPlayerPoints(1);
       }
 
     } else {
@@ -52,9 +55,13 @@ public class MediumAi implements Ai {
       // checks for 3 points
       if (powerRound && holdColours[1] == powerColour) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "3");
+        currentPlayer.incrementAiPoints(3);
+
 
       } else {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "1");
+        currentPlayer.incrementAiPoints(1);
+
       }
 
     } else {

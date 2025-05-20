@@ -13,6 +13,8 @@ public class Player {
   private Colour guessColour;
   private Colour previousGuessColour = null;
   List<Colour> playerColourHistory = new ArrayList<>();
+  private int playerPoints =0;
+  private int aiPoints = 0;
 
   public Player(String name) {
     this.name = name;
@@ -31,10 +33,21 @@ public class Player {
     this.playerColourHistory.add(chosenColour);
     
   }
+  //clears history when resetting
   public void clearPlayerColourHistory(){
     this.playerColourHistory.clear();
+    this.aiPoints =0;
+    this.playerPoints = 0;
 
   }
+  //adds points to totals
+  public void incrementPlayerPoints(int amount){
+    this.playerPoints +=amount;
+  }
+  public void incrementAiPoints(int amount){
+    this.aiPoints+=amount;
+  }
+
 
   public List<Colour> getPlayerColourHistory(){
     return this.playerColourHistory;
