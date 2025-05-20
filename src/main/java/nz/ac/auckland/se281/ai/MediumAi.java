@@ -5,19 +5,15 @@ import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
 public class MediumAi implements Ai {
-  Colour chosenColour = null;
-  Colour guessColour = null;
+
   boolean firstRound = true;
-  
+
   Colour[] holdColours; // 0 is chosen, 1 is guess;
   SelectAi selectAi = new SelectAi();
   Strategy randomStrategy = new RandomStrategy();
   Strategy avoidLastStrategy = new AvoidLastStrategy();
 
-  public MediumAi() {
-    this.chosenColour = null;
-    this.guessColour = null;
-  }
+  public MediumAi() {}
 
   @Override
   public void makeGuess(Player currentPlayer) {
@@ -37,10 +33,10 @@ public class MediumAi implements Ai {
 
   @Override
   public void checkOutcome(Player currentPlayer, Colour powerColour, Boolean powerRound) {
-    //checks if player guessed correctly
-    if (currentPlayer.getPlayerGuess() == this.chosenColour) {
-        //checks if player can get 3 points
-      if (powerRound && this.chosenColour == powerColour) {
+    // checks if player guessed correctly
+    if (currentPlayer.getPlayerGuess() == holdColours[0]) {
+      // checks if player can get 3 points
+      if (powerRound && holdColours[0] == powerColour) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "3");
 
       } else {
@@ -51,10 +47,10 @@ public class MediumAi implements Ai {
 
       MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "0");
     }
-    //checks if ai guessed correctly
-    if (currentPlayer.getPlayerColour() == this.guessColour) {
-        //checks for 3 points
-      if (powerRound && this.guessColour == powerColour) {
+    // checks if ai guessed correctly
+    if (currentPlayer.getPlayerColour() == holdColours[1]) {
+      // checks for 3 points
+      if (powerRound && holdColours[1] == powerColour) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "3");
 
       } else {
@@ -64,7 +60,7 @@ public class MediumAi implements Ai {
     } else {
       MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "0");
     }
-}
+  }
 
   @Override
   public Colour getAiGuess() {

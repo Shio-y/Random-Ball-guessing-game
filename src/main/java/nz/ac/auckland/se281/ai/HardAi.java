@@ -1,37 +1,80 @@
 package nz.ac.auckland.se281.ai;
 
+import nz.ac.auckland.se281.cli.MessageCli;
 import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
 public class HardAi implements Ai {
+  int roundCounter;
+  Colour[] holdColours; // 0 is chosen, 1 is guess;
+  SelectAi selectAi = new SelectAi();
+  Strategy randomStrategy = new RandomStrategy();
+  Strategy avoidLastStrategy = new AvoidLastStrategy();
+  Strategy leastUsedStrategy = new LeastUsedStrategy();
+
+  @Override
+  public void makeGuess(Player currentPlayer) {
+    //checks which round it is and picks strategy accordingly
+    switch (roundCounter) {
+      case (1):
+        selectAi.setStrategy(randomStrategy);
+        break;
+      case (2):
+        selectAi.setStrategy(randomStrategy);
+        break;
+      case (3):
+        selectAi.setStrategy(avoidLastStrategy);
+        break;
+      default:
+        selectAi.setStrategy(leastUsedStrategy);
+    }
+    roundCounter+=1;
+    holdColours = selectAi.execute(currentPlayer);
+  }
 
   @Override
   public Colour getAiGuess() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAiGuess'");
+    return holdColours[1];
   }
 
   @Override
   public Colour getAIColour() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getAIColour'");
+    return holdColours[0];
   }
 
   @Override
   public void printGuess() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'printGuess'");
+    MessageCli.PRINT_INFO_MOVE.printMessage("HAL-9000", holdColours[0], holdColours[1]);
   }
 
   @Override
   public void checkOutcome(Player currentPlayer, Colour powerColour, Boolean powerRound) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'checkOutcome'");
-  }
+    // checks if player guessed correctly
+    if (currentPlayer.getPlayerGuess() == holdColours[0]) {
+      // checks if player can get 3 points
+      if (powerRound && holdColours[0] == powerColour) {
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "3");
 
-  @Override
-  public void makeGuess(Player currentPlayer) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'makeGuess'");
+      } else {
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "1");
+      }
+
+    } else {
+
+      MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "0");
+    }
+    // checks if ai guessed correctly
+    if (currentPlayer.getPlayerColour() == holdColours[1]) {
+      // checks for 3 points
+      if (powerRound && holdColours[1] == powerColour) {
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "3");
+
+      } else {
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "1");
+      }
+
+    } else {
+      MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "0");
+    }
   }
 }
