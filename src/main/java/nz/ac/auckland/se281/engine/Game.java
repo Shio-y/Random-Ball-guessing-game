@@ -54,7 +54,8 @@ public class Game {
     MessageCli.PRINT_INFO_MOVE.printMessage(
         playerName, chosenColour.toString(), guessColour.toString());
 
-    if (currentRound%3 ==0){
+        //picks a power colour
+    if (currentRound % 3 == 0) {
       powerColour = Colour.getRandomColourForPowerColour();
       MessageCli.PRINT_POWER_COLOUR.printMessage(powerColour.toString());
     }
