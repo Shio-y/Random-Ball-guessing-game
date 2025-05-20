@@ -3,7 +3,7 @@ package nz.ac.auckland.se281.ai;
 import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
-public interface Ai {
+public interface  Ai {
   public void makeGuess(Player currentPlayer);
 
   public Colour getAiGuess();
