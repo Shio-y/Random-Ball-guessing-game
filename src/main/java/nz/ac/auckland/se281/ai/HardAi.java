@@ -11,10 +11,13 @@ public class HardAi implements Ai {
   Strategy randomStrategy = new RandomStrategy();
   Strategy avoidLastStrategy = new AvoidLastStrategy();
   Strategy leastUsedStrategy = new LeastUsedStrategy();
+  Boolean lostPrevious = false;
+  Strategy previouStrategy;
 
   @Override
   public void makeGuess(Player currentPlayer) {
     //checks which round it is and picks strategy accordingly
+    roundCounter+=1;
     switch (roundCounter) {
       case (1):
         selectAi.setStrategy(randomStrategy);
@@ -23,12 +26,28 @@ public class HardAi implements Ai {
         selectAi.setStrategy(randomStrategy);
         break;
       case (3):
-        selectAi.setStrategy(avoidLastStrategy);
+        selectAi.setStrategy(leastUsedStrategy);
+        previouStrategy = leastUsedStrategy;
         break;
       default:
-        selectAi.setStrategy(leastUsedStrategy);
+        if (lostPrevious){
+          //dynamically switches which strategy to use round 4 onwards
+          if(previouStrategy == leastUsedStrategy){
+            previouStrategy = avoidLastStrategy;
+          }else{
+            previouStrategy = leastUsedStrategy;
+          }
+          
+        }
+        selectAi.setStrategy(previouStrategy);
+    
+
+
+      
+        
     }
-    roundCounter+=1;
+  
+    
     holdColours = selectAi.execute(currentPlayer);
   }
 
@@ -58,10 +77,12 @@ public class HardAi implements Ai {
       } else {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "1");
       }
+      
 
     } else {
 
       MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "0");
+      
     }
     // checks if ai guessed correctly
     if (currentPlayer.getPlayerColour() == holdColours[1]) {
@@ -72,9 +93,11 @@ public class HardAi implements Ai {
       } else {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "1");
       }
+      lostPrevious = false; //remembers for next round
 
     } else {
       MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "0");
+      lostPrevious = true; //remembers for next round
     }
   }
 }
