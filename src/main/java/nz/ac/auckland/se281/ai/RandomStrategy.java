@@ -5,7 +5,7 @@ import nz.ac.auckland.se281.model.Colour;
 
 public class RandomStrategy implements Strategy {
   // set dummy default variables
-  Colour[] colour = {Colour.RED, Colour.RED};
+  private Colour[] colour = {Colour.RED, Colour.RED};
 
   @Override
   public Colour[] getColours(Player currentPlayer) {

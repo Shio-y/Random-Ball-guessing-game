@@ -5,12 +5,12 @@ import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
 public class LeastUsedStrategy implements Strategy {
-  Colour[] colour = {Colour.RED, Colour.RED};
+  private Colour[] colour = {Colour.RED, Colour.RED};
   // hierarchy is RED, GREEN, BLUE, YELLOW
-  int[] colourCount = {0, 0, 0, 0};
-  Colour[] dummyColour = {Colour.RED, Colour.GREEN, Colour.BLUE, Colour.YELLOW};
-  int lowestCount;
-  int lowestIndex = 0;
+  private int[] colourCount = {0, 0, 0, 0};
+  private Colour[] dummyColour = {Colour.RED, Colour.GREEN, Colour.BLUE, Colour.YELLOW};
+  private int lowestCount;
+  private int lowestIndex = 0;
 
   @Override
   public Colour[] getColours(Player currentPlayer) {

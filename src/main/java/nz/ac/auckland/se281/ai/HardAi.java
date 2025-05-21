@@ -5,14 +5,14 @@ import nz.ac.auckland.se281.engine.Player;
 import nz.ac.auckland.se281.model.Colour;
 
 public class HardAi implements Ai {
-  int roundCounter = 0;
-  Colour[] holdColours; // 0 is chosen, 1 is guess;
-  SelectAi selectAi = new SelectAi();
-  Strategy randomStrategy = new RandomStrategy();
-  Strategy avoidLastStrategy = new AvoidLastStrategy();
-  Strategy leastUsedStrategy = new LeastUsedStrategy();
-  Boolean lostPrevious = false;
-  Strategy previouStrategy;
+  private int roundCounter = 0;
+  private Colour[] holdColours; // 0 is chosen, 1 is guess;
+  private SelectAi selectAi = new SelectAi();
+  private Strategy randomStrategy = new RandomStrategy();
+  private Strategy avoidLastStrategy = new AvoidLastStrategy();
+  private Strategy leastUsedStrategy = new LeastUsedStrategy();
+  private Boolean lostPrevious = false;
+  private Strategy previouStrategy;
 
   @Override
   public void makeGuess(Player currentPlayer) {
@@ -55,7 +55,7 @@ public class HardAi implements Ai {
   }
 
   @Override
-  public Colour getAIColour() {
+  public Colour getAiColour() {
     return holdColours[0];
   }
 

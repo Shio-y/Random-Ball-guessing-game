@@ -1,20 +1,20 @@
 package nz.ac.auckland.se281.engine;
 
 import nz.ac.auckland.se281.Main.Difficulty;
-import nz.ac.auckland.se281.ai.*;
+import nz.ac.auckland.se281.ai.Ai;
+import nz.ac.auckland.se281.ai.AiFactory;
+import nz.ac.auckland.se281.ai.HardAi;
 import nz.ac.auckland.se281.cli.MessageCli;
 import nz.ac.auckland.se281.model.Colour;
 
 public class Game {
-  public static String AI_NAME = "HAL-9000";
-  public int maxRounds = 0;
-  public int currentRound = 0;
-  public Ai currentAi = null;
-  public Player currentPlayer = null;
-  public HardAi dummyHardAi = null;
-  boolean gameBegin = false;
 
-  public Game() {}
+  private int maxRounds = 0;
+  private int currentRound = 0;
+  private Ai currentAi = null;
+  private Player currentPlayer = null;
+  private HardAi dummyHardAi = null;
+  private boolean gameBegin = false;
 
   public void newGame(Difficulty difficulty, int numRounds, String[] options) {
     gameBegin = true;
@@ -43,7 +43,7 @@ public class Game {
     Colour powerColour = null;
     String[] input;
     Boolean validInputs = false;
-    Boolean powerRound = false;
+    Boolean powerRound;
 
     // check if game began
     if (!gameBegin) {
@@ -68,7 +68,7 @@ public class Game {
     while (validInputs == false) {
       MessageCli.ASK_HUMAN_INPUT.printMessage();
 
-      input = (Interact.readStringInput().split(" "));
+      input = (InteractClass.readStringInput().split(" "));
 
       // checks if there are enough inputs
       if (input.length != 2) {
@@ -81,7 +81,7 @@ public class Game {
       guessColour = Colour.fromInput(input[1]);
 
       // checks if both inputs are valid and outputs error message if not
-      if (Valid.checkColour(chosenColour) && Valid.checkColour(guessColour)) {
+      if (Validity.checkColour(chosenColour) && Validity.checkColour(guessColour)) {
         currentPlayer.setColour(chosenColour, guessColour);
         break;
 

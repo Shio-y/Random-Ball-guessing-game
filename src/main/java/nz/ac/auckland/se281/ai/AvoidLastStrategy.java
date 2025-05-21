@@ -5,7 +5,7 @@ import nz.ac.auckland.se281.model.Colour;
 
 public class AvoidLastStrategy implements Strategy {
   // need default values or else doesnt work
-  Colour[] colour = {Colour.RED, Colour.RED};
+  private Colour[] colour = {Colour.RED, Colour.RED};
 
   // returns randomly a colour that was not picked in the previous turn by human.
   @Override

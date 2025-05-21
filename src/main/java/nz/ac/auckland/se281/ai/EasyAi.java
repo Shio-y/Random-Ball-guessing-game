@@ -6,13 +6,12 @@ import nz.ac.auckland.se281.model.Colour;
 
 public class EasyAi implements Ai {
 
-  int points = 0;
-  Colour chosenColour = null;
-  Colour guessColour = null;
-  Colour[] holdColours; // index 0 is chosen colour, 1 is guessed colour
+  private Colour chosenColour;
+  private Colour guessColour;
+  private Colour[] holdColours; // index 0 is chosen colour, 1 is guessed colour
 
-  RandomStrategy randomStrategy = new RandomStrategy();
-  SelectAi selectAi = new SelectAi();
+  private RandomStrategy randomStrategy = new RandomStrategy();
+  private SelectAi selectAi = new SelectAi();
 
   public EasyAi() {
     this.chosenColour = null;
@@ -35,7 +34,7 @@ public class EasyAi implements Ai {
   }
 
   @Override
-  public Colour getAIColour() {
+  public Colour getAiColour() {
     return holdColours[0];
   }
 

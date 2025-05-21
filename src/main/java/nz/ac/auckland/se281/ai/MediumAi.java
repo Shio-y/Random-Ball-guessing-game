@@ -6,14 +6,11 @@ import nz.ac.auckland.se281.model.Colour;
 
 public class MediumAi implements Ai {
 
-  boolean firstRound = true;
-
-  Colour[] holdColours; // 0 is chosen, 1 is guess;
-  SelectAi selectAi = new SelectAi();
-  Strategy randomStrategy = new RandomStrategy();
-  Strategy avoidLastStrategy = new AvoidLastStrategy();
-
-  public MediumAi() {}
+  private boolean firstRound = true;
+  private Colour[] holdColours; // 0 is chosen, 1 is guess;
+  private SelectAi selectAi = new SelectAi();
+  private Strategy randomStrategy = new RandomStrategy();
+  private Strategy avoidLastStrategy = new AvoidLastStrategy();
 
   @Override
   public void makeGuess(Player currentPlayer) {
@@ -40,7 +37,6 @@ public class MediumAi implements Ai {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "3");
         currentPlayer.incrementPlayerPoints(3);
 
-
       } else {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(currentPlayer.getPlayerName(), "1");
         currentPlayer.incrementPlayerPoints(1);
@@ -57,11 +53,9 @@ public class MediumAi implements Ai {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "3");
         currentPlayer.incrementAiPoints(3);
 
-
       } else {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage("HAL-9000", "1");
         currentPlayer.incrementAiPoints(1);
-
       }
 
     } else {
@@ -75,7 +69,7 @@ public class MediumAi implements Ai {
   }
 
   @Override
-  public Colour getAIColour() {
+  public Colour getAiColour() {
     return holdColours[0];
   }
 

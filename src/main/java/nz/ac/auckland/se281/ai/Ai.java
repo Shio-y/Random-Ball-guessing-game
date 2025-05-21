@@ -8,7 +8,7 @@ public interface  Ai {
 
   public Colour getAiGuess();
 
-  public Colour getAIColour();
+  public Colour getAiColour();
 
   public void printGuess();
 

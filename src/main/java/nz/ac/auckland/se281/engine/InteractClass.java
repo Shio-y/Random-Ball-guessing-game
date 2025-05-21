@@ -2,7 +2,7 @@ package nz.ac.auckland.se281.engine;
 
 import nz.ac.auckland.se281.cli.Utils;
 
-public class Interact {
+public class InteractClass {
 
   public static String readStringInput() {
     // this reads the next line inputted by the user.
