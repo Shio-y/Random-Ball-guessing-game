@@ -18,7 +18,8 @@ import org.junit.runners.Suite.SuiteClasses;
   MainTest.Task2.class,
   MainTest.Task3.class,
   MainTest.Task4.class,
-  MainTest.Task5.class
+  MainTest.Task5.class,
+  MainTest.YourTests.class
 })
 public class MainTest {
 
@@ -94,7 +95,8 @@ public class MainTest {
           NEW_GAME + " EASY 3",
           "Valerio", //
           PLAY,
-          "rrr rrrr", "G B");
+          "rrr rrrr",
+          "G B");
       assertContains(ASK_HUMAN_INPUT.getMessage());
     }
 
@@ -1080,6 +1082,177 @@ public class MainTest {
     }
 
     @Test
-    public void yourtest() throws Exception {}
+    public void TX_1_stats_cleared_newgame_no_moves() throws Exception {
+      Utils.randomAi = new Random(3434343);
+      Utils.randomPowerNumber = new Random(1);
+      runCommands(
+          NEW_GAME + " EASY 2",
+          "Valerio", //
+          PLAY,
+          "B Y",
+          NEW_GAME + " EASY 3",
+          "Valerio", //
+          SHOW_STATS);
+      // check stats cleared
+      assertContains(PRINT_PLAYER_POINTS.getMessage("Valerio", 0));
+      assertContains(PRINT_PLAYER_POINTS.getMessage(AI_NAME, 0));
+      assertDoesNotContain(PRINT_PLAYER_POINTS.getMessage("Valerio", 1));
+    }
+
+    @Test
+    public void TX_2_round_count_high() throws Exception {
+      Utils.randomAi = new Random(3434343);
+      Utils.randomPowerNumber = new Random(1);
+      runCommands(
+          NEW_GAME + " EASY 20",
+          "Valerio",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y",
+          PLAY,
+          "B Y");
+      // check stats cleared
+      assertContains(START_ROUND.getMessage("20", "20"));
+      assertContains(PRINT_END_GAME.getMessage());
+      assertDoesNotContain(START_ROUND.getMessage("21", "20"));
+      assertDoesNotContain(START_ROUND.getMessage("0", "20"));
+    }
+
+    @Test
+    public void TX_3_invalid_input_manytimes() throws Exception {
+      runCommands(
+          NEW_GAME + " EASY 2",
+          "Valerio", //
+          PLAY,
+          "some invalid input",
+          "some different invalid input",
+          "another invalid",
+          "R B",
+          PLAY,
+          "wrong input",
+          "random",
+          "B Y");
+      assertContains(INVALID_HUMAN_INPUT.getMessage());
+      assertDoesNotContain(COMMAND_NOT_FOUND.getMessage());
+    }
+
+    @Test
+    public void TX_4_input_colour_whitespace_before() throws Exception {
+      // check whitespace trimmed before input
+      runCommands(
+          NEW_GAME + " EASY 2",
+          "Valerio", //
+          PLAY,
+          "    B Y");
+      assertContains(PRINT_OUTCOME_ROUND.getMessage("Valerio", 0));
+      assertDoesNotContain(INVALID_HUMAN_INPUT.getMessage());
+    }
+
+    @Test
+    public void TX_5_input_colour_whitespace_after() throws Exception {
+      // check whitespace trimmed after input
+      runCommands(
+          NEW_GAME + " EASY 2",
+          "Valerio", //
+          PLAY,
+          "B Y  ",
+          "B Y");
+      assertContains(PRINT_OUTCOME_ROUND.getMessage("Valerio", 0));
+      assertDoesNotContain(INVALID_HUMAN_INPUT.getMessage());
+    }
+
+    @Test
+    public void TX_6_input_colour_whitespace_in_between() throws Exception {
+      // check spaces in between are not read
+      runCommands(
+          NEW_GAME + " EASY 2",
+          "Valerio", //
+          PLAY,
+          "B    Y");
+      assertDoesNotContain(INVALID_HUMAN_INPUT.getMessage());
+      assertContains(PRINT_OUTCOME_ROUND.getMessage("Valerio", 0));
+    }
+
+    @Test
+    public void TX_7_stats_cleared_endgame() throws Exception {
+      // showstats should not work at end of game
+      Utils.randomAi = new Random(3434343);
+      Utils.randomPowerNumber = new Random(1);
+      runCommands(
+          NEW_GAME + " EASY 2",
+          "Valerio", //
+          PLAY,
+          "B Y",
+          PLAY,
+          "R B",
+          SHOW_STATS);
+      assertContains(GAME_NOT_STARTED.getMessage());
+    }
+
+    @Test
+    public void TX_8_play_after_endgame() throws Exception {
+      // play should not work at end of game
+      runCommands(NEW_GAME + " EASY 2", "Valerio", PLAY, "B Y", PLAY, "R B");
+      runCommands(PLAY);
+
+      assertContains(GAME_NOT_STARTED.getMessage());
+      assertDoesNotContain(PRINT_PLAYER_POINTS.getMessage(3, 2));
+    }
+
+    @Test
+    public void TX_9_power_colour_guessed_but_no_points() throws Exception {
+      // ai and player should not earn any points here as they did not correctly guess the player
+      // colour
+      Utils.randomAi = new Random(45);
+      Utils.randomPowerNumber = new Random(4574875);
+      runCommands(
+          NEW_GAME + " EASY 5",
+          "Valerio", //
+          PLAY,
+          "B B",
+          PLAY,
+          "B R",
+          PLAY,
+          "B R");
+      assertContains(PRINT_POWER_COLOUR.getMessage("RED"));
+      assertContainsAtRound(PRINT_INFO_MOVE.getMessage(AI_NAME, "GREEN", "RED"), 3);
+      assertContainsAtRound(PRINT_OUTCOME_ROUND.getMessage("Valerio", 0), 3);
+      assertContainsAtRound(PRINT_OUTCOME_ROUND.getMessage(AI_NAME, 0), 3);
+    }
   }
 }

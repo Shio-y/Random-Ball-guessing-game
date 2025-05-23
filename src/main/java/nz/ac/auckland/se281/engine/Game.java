@@ -68,7 +68,7 @@ public class Game {
     while (validInputs == false) {
       MessageCli.ASK_HUMAN_INPUT.printMessage();
 
-      input = (InteractClass.readStringInput().split(" "));
+      input = (InteractClass.readStringInput().trim().split("\\s+"));
 
       // checks if there are enough inputs
       if (input.length != 2) {
@@ -77,8 +77,8 @@ public class Game {
       }
 
       // attempts to turn inputs into colour enum
-      chosenColour = Colour.fromInput(input[0]);
-      guessColour = Colour.fromInput(input[1]);
+      chosenColour = Colour.fromInput(input[0].trim());
+      guessColour = Colour.fromInput(input[1].trim());
 
       // checks if both inputs are valid and outputs error message if not
       if (Validity.checkColour(chosenColour) && Validity.checkColour(guessColour)) {
